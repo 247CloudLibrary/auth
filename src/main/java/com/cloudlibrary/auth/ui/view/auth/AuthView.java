@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -27,7 +27,7 @@ public class AuthView {
     @ApiModelProperty(value = "성별")
     private final String gender;
     @ApiModelProperty(value = "생년월일")
-    private final SimpleDateFormat birth;
+    private final LocalDateTime birth;
     @ApiModelProperty(value = "주소")
     private final String address;
     @ApiModelProperty(value = "이메일")

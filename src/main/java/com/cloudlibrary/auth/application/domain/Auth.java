@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -15,7 +15,7 @@ public class Auth {
     private final String password;
     private final String userName;
     private final String gender;
-    private final SimpleDateFormat birth;
+    private final LocalDateTime birth;
     private final String address;
     private final String email;
     private final String tell;

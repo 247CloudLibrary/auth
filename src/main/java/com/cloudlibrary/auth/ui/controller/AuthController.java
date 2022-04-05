@@ -15,6 +15,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -35,7 +36,7 @@ public class AuthController {
 
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponseView<AuthView>> createAdmin(@RequestBody AuthCreateRequest request) {
+    public ResponseEntity<ApiResponseView<AuthView>> createAuth(@RequestBody AuthCreateRequest request) {
         if (ObjectUtils.isEmpty(request)) {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
@@ -53,14 +54,13 @@ public class AuthController {
 */
         //return ResponseEntity.ok(new ApiResponseView<>(new AdminView(result)));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("2006.05.26");
         return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder()
                 .uid(1L)
                 .userId("kim123")
                 .password("123123")
                 .userName("김김김")
                 .gender("남")
-                .birth(sdf)
+                .birth(LocalDateTime.now())
                 .address("서울시 서초구 방배동")
                 .email("gj@nmm.jy")
                 .tell("010-55-55")
@@ -77,20 +77,19 @@ public class AuthController {
 
     //마이페이지조회
     @GetMapping("/{uid}")
-    public ResponseEntity<ApiResponseView<AuthView>> getadmin(@PathVariable("uid") Long uid) {
+    public ResponseEntity<ApiResponseView<AuthView>> getAuth(@PathVariable("uid") Long uid) {
         //var query = new AdminReadUseCase.AdminFindQuery(id);
 
         //var result = AdminReadUseCase.getAdmin(query);
 
         //return ResponseEntity.ok(new ApiResponseView<>(new AdminView(result)));
-        SimpleDateFormat sdf = new SimpleDateFormat("2006.05.26");
         return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder()
                 .uid(1L)
                 .userId("kim123")
                 .password("123123")
                 .userName("김김김")
                 .gender("남")
-                .birth(sdf)
+                .birth(LocalDateTime.now())
                 .address("서울시 서초구 방배동")
                 .email("gj@nmm.jy")
                 .tell("010-55-55")
@@ -108,7 +107,7 @@ public class AuthController {
 
     //회원탈퇴
     @DeleteMapping("/withdraw/{uid}")
-    public ResponseEntity<ApiResponseView<AuthCompactView>> deleteAuth(@PathVariable("id") long id) {
+    public ResponseEntity<ApiResponseView<AuthCompactView>> deleteAuth(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok().build();
 

@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -19,7 +20,7 @@ public class AuthEntity implements Serializable {
     private String password;
     private String userName;
     private String gender;
-    private SimpleDateFormat birth;
+    private LocalDateTime birth;
     private String address;
     private String email;
     private String tell;

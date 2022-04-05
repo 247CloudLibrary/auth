@@ -12,7 +12,7 @@ public class AuthEntityRepositoryImpl implements AuthEntityRepository {
 
 
     @Override
-    public Optional<Auth> findAuthById(long authId) {
+    public Optional<Auth> findAuthById(Long authId) {
         return Optional.empty();
     }
 

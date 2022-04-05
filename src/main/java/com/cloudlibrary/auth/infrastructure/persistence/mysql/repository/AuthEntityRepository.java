@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthEntityRepository {
-    Optional<Auth> findAuthById(long authId);
+    Optional<Auth> findAuthById(Long authId);
     List<Auth> findAuthAll();
 }

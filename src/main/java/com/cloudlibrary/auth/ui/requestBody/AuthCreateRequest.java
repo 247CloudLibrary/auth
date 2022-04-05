@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ public class AuthCreateRequest {
     private String password;
     private String userName;
     private String gender;
-    private SimpleDateFormat birth;
+    private LocalDateTime birth;
     private String address;
     private String email;
     private String tell;
