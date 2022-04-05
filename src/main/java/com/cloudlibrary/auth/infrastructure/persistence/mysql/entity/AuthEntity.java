@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @Setter
 @Getter
@@ -15,11 +15,11 @@ import java.util.Date;
 @ToString
 public class AuthEntity implements Serializable {
     private Long uid;
-    private long userId;
+    private String userId;
     private String password;
     private String userName;
     private String gender;
-    private Date birth;
+    private SimpleDateFormat birth;
     private String address;
     private String email;
     private String tell;

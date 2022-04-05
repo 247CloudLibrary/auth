@@ -3,6 +3,7 @@ package com.cloudlibrary.auth.application.service;
 import com.cloudlibrary.auth.application.domain.Auth;
 import lombok.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,11 +28,11 @@ public interface AuthReadUseCase {
     @Builder
     class FindAuthResult {
         private final Long uid;
-        private final long userId;
+        private final String userId;
         private final String password;
         private final String userName;
         private final String gender;
-        private final Date birth;
+        private final SimpleDateFormat birth;
         private final String address;
         private final String email;
         private final String tell;
