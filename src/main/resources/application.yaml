@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: local
+
+
+---
+spring:
+  application:
+    name: book-sample-local
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  application:
+    name: book-sample-dev
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  application:
+    name: book-sample-prod
+  config:
+    activate:
+      on-profile: prod
