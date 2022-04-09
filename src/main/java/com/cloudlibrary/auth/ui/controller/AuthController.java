@@ -99,29 +99,29 @@ public class AuthController {
     }
 
     //회원수정
-    @PutMapping("/update-state/{uid}")
-    public ResponseEntity<ApiResponseView<AuthCompactView>> updateAuth(@RequestBody AuthUpdateRequest request) {
+    @PatchMapping("/update-state/{uid}")
+    public ResponseEntity<ApiResponseView<AuthCompactView>> updateAuth(@RequestBody AuthUpdateRequest request, @PathVariable("uid") Long uid) {
 
         return ResponseEntity.ok().build();
     }
 
     //회원탈퇴
     @DeleteMapping("/withdraw/{uid}")
-    public ResponseEntity<ApiResponseView<AuthCompactView>> deleteAuth(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponseView<AuthCompactView>> deleteAuth(@PathVariable("uid") Long uid) {
 
         return ResponseEntity.ok().build();
 
     }
 
     //회원아이디찾기
-    @GetMapping("/findid/{uid}")
+    @PostMapping("/findid/{uid}")
     public ResponseEntity<ApiResponseView<AuthView>> findId(@RequestBody AuthFindIdRequest request, @PathVariable("uid") Long uid) {
         return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder().userId("myid").build()));
     }
 
     //회원비밀번호찾기
-    @PostMapping("/findpw")
-    public ResponseEntity<ApiResponseView<AuthView>> findPw(@RequestBody AuthFindPwRequest request) {
+    @PatchMapping("/findpw/{uid}")
+    public ResponseEntity<ApiResponseView<AuthView>> findPw(@RequestBody AuthFindPwRequest request, @PathVariable("uid") Long uid) {
         return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder().password("mypw").build()));
     }
 }
