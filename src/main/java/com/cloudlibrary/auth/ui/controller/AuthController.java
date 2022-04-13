@@ -35,7 +35,7 @@ public class AuthController {
      */
 
     //회원가입
-    @PostMapping("/signup")
+    @PostMapping("/signp")
     public ResponseEntity<ApiResponseView<AuthView>> createAuth(@RequestBody AuthCreateRequest request) {
         if (ObjectUtils.isEmpty(request)) {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
