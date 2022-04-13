@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 @Slf4j
+@CrossOrigin(origins = "*")
 @RestController
 @Api(value = "회원 API")
 @RequestMapping("/v1/auth")
