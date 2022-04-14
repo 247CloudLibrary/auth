@@ -16,9 +16,8 @@ public class AuthCreateRequest {
     private String password;
     private String userName;
     private String gender;
-    private LocalDateTime birth;
+    private String birth;
     private String address;
     private String email;
-    private String tell;
-    private boolean sendAgree;
+    private String tel;
 }

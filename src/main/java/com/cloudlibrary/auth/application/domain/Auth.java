@@ -15,9 +15,8 @@ public class Auth {
     private final String password;
     private final String userName;
     private final String gender;
-    private final LocalDateTime birth;
+    private final String birth;
     private final String address;
     private final String email;
-    private final String tell;
-    private final boolean sendAgree;
+    private final String tel;
 }

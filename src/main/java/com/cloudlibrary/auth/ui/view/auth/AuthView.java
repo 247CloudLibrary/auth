@@ -27,15 +27,13 @@ public class AuthView {
     @ApiModelProperty(value = "성별")
     private final String gender;
     @ApiModelProperty(value = "생년월일")
-    private final LocalDateTime birth;
+    private final String birth;
     @ApiModelProperty(value = "주소")
     private final String address;
     @ApiModelProperty(value = "이메일")
     private final String email;
     @ApiModelProperty(value = "전화번호")
-    private final String tell;
-    @ApiModelProperty(value = "수신동의")
-    private final boolean sendAgree;
+    private final String tel;
 
     public AuthView(AuthReadUseCase.FindAuthResult result) {
         this.uid = result.getUid();
@@ -46,8 +44,7 @@ public class AuthView {
         this.birth = result.getBirth();
         this.address = result.getAddress();
         this.email = result.getEmail();
-        this.tell = result.getTell();
-        this.sendAgree = result.isSendAgree();
+        this.tel = result.getTel();
     }
 
 }

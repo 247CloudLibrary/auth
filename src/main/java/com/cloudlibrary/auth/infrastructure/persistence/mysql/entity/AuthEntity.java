@@ -20,10 +20,10 @@ public class AuthEntity implements Serializable {
     private String password;
     private String userName;
     private String gender;
-    private LocalDateTime birth;
+    private String birth;
     private String address;
     private String email;
-    private String tell;
+    private String tel;
     private boolean sendAgree;
 
     public Auth toAuth() {
@@ -36,8 +36,7 @@ public class AuthEntity implements Serializable {
                 .birth(this.birth)
                 .address(this.address)
                 .email(this.email)
-                .tell(this.tell)
-                .sendAgree(this.sendAgree)
+                .tel(this.tel)
                 .build();
     }
 
@@ -50,7 +49,6 @@ public class AuthEntity implements Serializable {
         this.birth = auth.getBirth();
         this.address = auth.getAddress();
         this.email = auth.getEmail();
-        this.tell = auth.getTell();
-        this.sendAgree = auth.isSendAgree();
+        this.tel = auth.getTel();
     }
 }

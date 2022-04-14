@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -61,11 +62,10 @@ public class AuthController {
                 .password("123123")
                 .userName("김김김")
                 .gender("남")
-                .birth(LocalDateTime.now())
+                .birth(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                 .address("서울시 서초구 방배동")
                 .email("gj@nmm.jy")
-                .tell("010-55-55")
-                .sendAgree(true)
+                .tel("010-55-55")
                 .build()
         ));
     }
@@ -90,11 +90,10 @@ public class AuthController {
                 .password("123123")
                 .userName("김김김")
                 .gender("남")
-                .birth(LocalDateTime.now())
+                .birth(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                 .address("서울시 서초구 방배동")
                 .email("gj@nmm.jy")
-                .tell("010-55-55")
-                .sendAgree(true)
+                .tel("010-55-55")
                 .build()
         ));
     }
