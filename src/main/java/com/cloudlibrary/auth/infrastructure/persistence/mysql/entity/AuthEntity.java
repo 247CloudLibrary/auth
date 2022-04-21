@@ -1,30 +1,53 @@
 package com.cloudlibrary.auth.infrastructure.persistence.mysql.entity;
 
 import com.cloudlibrary.auth.application.domain.Auth;
+import com.cloudlibrary.auth.application.domain.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+
 
 @Setter
 @Getter
 @NoArgsConstructor
 @ToString
-public class AuthEntity implements Serializable {
+@Entity
+@Table(name = "auth")
+public class AuthEntity extends BaseTimeEntity{
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
+
+    @Column(nullable = false)
     private String userId;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String userName;
-    private String gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Column(nullable = false)
     private String birth;
+
+    @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String tel;
-    private boolean sendAgree;
+
 
     public Auth toAuth() {
         return Auth.builder()
@@ -32,11 +55,13 @@ public class AuthEntity implements Serializable {
                 .userId(this.userId)
                 .password(this.password)
                 .userName(this.userName)
-                .gender(this.gender)
+                .gender(this.gender.getType())
                 .birth(this.birth)
                 .address(this.address)
                 .email(this.email)
                 .tel(this.tel)
+                .createdAt(super.getCreatedAt())
+                .updatedAt(super.getUpdatedAt())
                 .build();
     }
 
@@ -45,7 +70,7 @@ public class AuthEntity implements Serializable {
         this.userId = auth.getUserId();
         this.password = auth.getPassword();
         this.userName = auth.getUserName();
-        this.gender = auth.getGender();
+        this.gender = Gender.find(auth.getGender());
         this.birth = auth.getBirth();
         this.address = auth.getAddress();
         this.email = auth.getEmail();
