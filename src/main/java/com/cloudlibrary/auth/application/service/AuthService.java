@@ -1,13 +1,17 @@
 package com.cloudlibrary.auth.application.service;
 
 import com.cloudlibrary.auth.application.domain.Auth;
+import com.cloudlibrary.auth.exception.CloudLibraryException;
+import com.cloudlibrary.auth.exception.MessageType;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.entity.AuthEntity;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.repository.AuthEntityRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
-public class AuthService implements AuthOperationUseCase{
+public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
     private final AuthEntityRepository authEntityRepository;
 
@@ -40,5 +44,18 @@ public class AuthService implements AuthOperationUseCase{
     @Override
     public void deleteAuth(AuthDeleteCommand command) {
 
+    }
+
+    @Override
+    public FindAuthResult getAuthInfo(AuthFindQuery query) {
+
+        Optional<Auth> result = authEntityRepository.findById(query.getUid()).stream().findAny()
+                .map(AuthEntity::toAuth);
+
+        if (result.isEmpty()) {
+            throw new CloudLibraryException(MessageType.NOT_FOUND);
+        }
+
+        return FindAuthResult.findByAuth(result.get());
     }
 }

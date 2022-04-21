@@ -1,6 +1,7 @@
 package com.cloudlibrary.auth.ui.controller;
 
 import com.cloudlibrary.auth.application.service.AuthOperationUseCase;
+import com.cloudlibrary.auth.application.service.AuthReadUseCase;
 import com.cloudlibrary.auth.exception.CloudLibraryException;
 import com.cloudlibrary.auth.exception.MessageType;
 import com.cloudlibrary.auth.ui.requestBody.*;
@@ -15,8 +16,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -26,9 +26,11 @@ import java.time.format.DateTimeFormatter;
 public class AuthController {
 
     private final AuthOperationUseCase authOperationUseCase;
+    private final AuthReadUseCase authReadUseCase;
 
-    public AuthController(AuthOperationUseCase authOperationUseCase) {
+    public AuthController(AuthOperationUseCase authOperationUseCase, AuthReadUseCase authReadUseCase) {
         this.authOperationUseCase = authOperationUseCase;
+        this.authReadUseCase = authReadUseCase;
     }
 
     @PostMapping("/signUp")
@@ -39,7 +41,6 @@ public class AuthController {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
         //TODO 회원 중복 체크
-
 
         var command = AuthOperationUseCase.AuthCreateCommand.builder()
                 .userId(request.getUserId())
@@ -64,24 +65,14 @@ public class AuthController {
     @GetMapping("/{uid}")
     @ApiOperation("마이페이지 조회")
     public ResponseEntity<ApiResponseView<AuthView>> getAuth(@PathVariable("uid") Long uid) {
-        //var query = new AdminReadUseCase.AdminFindQuery(id);
 
-        //var result = AdminReadUseCase.getAdmin(query);
+        var query = new AuthReadUseCase.AuthFindQuery(uid);
 
-        //return ResponseEntity.ok(new ApiResponseView<>(new AdminView(result)));
-        return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder()
-                .uid(1L)
-                .userId("kim123")
-                .password("123123")
-                .userName("김김김")
-                .gender("남")
-                .birth(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
-                .address("서울시 서초구 방배동")
-                .email("gj@nmm.jy")
-                .tel("010-55-55")
-                .build()
-        ));
+        var result = authReadUseCase.getAuthInfo(query);
+
+        return ResponseEntity.ok(new ApiResponseView<>(new AuthView(result)));
     }
+
 
     @PatchMapping("/update-state/{uid}")
     @ApiOperation("회원수정")
