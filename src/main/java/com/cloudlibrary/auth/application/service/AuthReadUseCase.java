@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AuthReadUseCase {
-    List<FindAuthResult> getAuthListAll();
-    FindAuthResult getAuth(AuthFindQuery query);
+
+    FindAuthResult getAuthInfo(AuthFindQuery query);
 
     @NoArgsConstructor
     @EqualsAndHashCode(callSuper = false)
