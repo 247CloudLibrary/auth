@@ -1,15 +1,14 @@
 package com.cloudlibrary.auth.infrastructure.persistence.mysql.entity;
 
 import com.cloudlibrary.auth.application.domain.Auth;
+import com.cloudlibrary.auth.application.domain.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+
 
 @Setter
 @Getter
@@ -33,8 +32,9 @@ public class AuthEntity extends BaseTimeEntity{
     @Column(nullable = false)
     private String userName;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String gender;
+    private Gender gender;
 
     @Column(nullable = false)
     private String birth;
@@ -48,8 +48,6 @@ public class AuthEntity extends BaseTimeEntity{
     @Column(nullable = false)
     private String tel;
 
-    @Column(nullable = false)
-    private boolean sendAgree;
 
     public Auth toAuth() {
         return Auth.builder()
@@ -57,7 +55,7 @@ public class AuthEntity extends BaseTimeEntity{
                 .userId(this.userId)
                 .password(this.password)
                 .userName(this.userName)
-                .gender(this.gender)
+                .gender(this.gender.getType())
                 .birth(this.birth)
                 .address(this.address)
                 .email(this.email)
@@ -72,7 +70,7 @@ public class AuthEntity extends BaseTimeEntity{
         this.userId = auth.getUserId();
         this.password = auth.getPassword();
         this.userName = auth.getUserName();
-        this.gender = auth.getGender();
+        this.gender = Gender.find(auth.getGender());
         this.birth = auth.getBirth();
         this.address = auth.getAddress();
         this.email = auth.getEmail();
