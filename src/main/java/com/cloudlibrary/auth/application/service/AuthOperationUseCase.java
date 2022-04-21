@@ -1,4 +1,29 @@
 package com.cloudlibrary.auth.application.service;
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 public interface AuthOperationUseCase {
+
+    void createdAuth(AuthCreateCommand command);
+
+
+
+    @EqualsAndHashCode(callSuper = false)
+    @Builder
+    @Getter
+    @ToString
+    class AuthCreateCommand {
+        private final String userId;
+        private final String password;
+        private final String userName;
+        private final String gender;
+        private final String birth;
+        private final String address;
+        private final String email;
+        private final String tel;
+    }
+
 }

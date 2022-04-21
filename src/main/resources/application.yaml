@@ -1,8 +1,21 @@
 spring:
   profiles:
     active: local
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:tcp://localhost/~/auth
+      driver-class-name: org.h2.Driver
+      username: sa
 
-
+  jpa:
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+logging:
+  level:
+    com.cloudlibrary.auth: DEBUG
 ---
 spring:
   application:
