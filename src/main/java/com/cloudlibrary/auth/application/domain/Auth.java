@@ -19,4 +19,6 @@ public class Auth {
     private final String address;
     private final String email;
     private final String tel;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 }

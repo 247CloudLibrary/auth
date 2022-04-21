@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -14,16 +15,40 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @ToString
-public class AuthEntity implements Serializable {
+@Entity
+@Table(name = "auth")
+public class AuthEntity extends BaseTimeEntity{
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
+
+    @Column(nullable = false)
     private String userId;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String userName;
+
+    @Column(nullable = false)
     private String gender;
+
+    @Column(nullable = false)
     private String birth;
+
+    @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String tel;
+
+    @Column(nullable = false)
     private boolean sendAgree;
 
     public Auth toAuth() {
@@ -37,6 +62,8 @@ public class AuthEntity implements Serializable {
                 .address(this.address)
                 .email(this.email)
                 .tel(this.tel)
+                .createdAt(super.getCreatedAt())
+                .updatedAt(super.getUpdatedAt())
                 .build();
     }
 
