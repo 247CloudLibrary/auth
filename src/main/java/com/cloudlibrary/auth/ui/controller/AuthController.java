@@ -53,7 +53,7 @@ public class AuthController {
                 .tel(request.getTel())
                 .build();
 
-        authOperationUseCase.createdAuth(command);
+        authOperationUseCase.createAuth(command);
     }
 
     @PostMapping("/signin")
@@ -76,7 +76,21 @@ public class AuthController {
 
     @PatchMapping("/update-state/{uid}")
     @ApiOperation("회원수정")
-    public ResponseEntity<ApiResponseView<AuthCompactView>> updateAuth(@RequestBody AuthUpdateRequest request, @PathVariable("uid") Long uid) {
+    public ResponseEntity<ApiResponseView<AuthCompactView>> updateAuth( @PathVariable("uid") Long uid, @Valid @RequestBody AuthUpdateRequest request) {
+
+        var command = AuthOperationUseCase.AuthUpdateCommand.builder()
+                .uid(uid)
+                .userId(request.getUserId())
+                .password(request.getPassword())
+                .userName(request.getUserName())
+                .gender(request.getGender())
+                .birth(request.getBirth())
+                .address(request.getAddress())
+                .email(request.getEmail())
+                .tel(request.getTel())
+                .build();
+
+        authOperationUseCase.updateAuth(command);
 
         return ResponseEntity.ok().build();
     }

@@ -21,7 +21,7 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
     @Override
     @Transactional
-    public void createdAuth(AuthCreateCommand command) {
+    public void createAuth(AuthCreateCommand command) {
         Auth auth = Auth.builder()
                 .userId(command.getUserId())
                 .password(command.getPassword())
@@ -37,16 +37,31 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
     }
 
     @Override
-    public Long updateAuth(AuthUpdateCommand command) {
-        return null;
+    @Transactional
+    public void updateAuth(AuthUpdateCommand command) {
+        //회원이 존재하는지 확인
+        AuthEntity authEntity = authEntityRepository.findById(command.getUid()).stream().findAny()
+                .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+
+        Auth auth = Auth.builder()
+                .uid(command.getUid())
+                .userId(command.getUserId())
+                .password(command.getPassword())
+                .userName(command.getUserName())
+                .gender(command.getGender())
+                .birth(command.getBirth())
+                .address(command.getAddress())
+                .email(command.getEmail())
+                .tel(command.getTel())
+                .build();
+        //있으면 수정
+        authEntity.update(auth);
+
     }
 
-    @Override
-    public void deleteAuth(AuthDeleteCommand command) {
-
-    }
 
     @Override
+    @Transactional(readOnly = true)
     public FindAuthResult getAuthInfo(AuthFindQuery query) {
 
         Optional<Auth> result = authEntityRepository.findById(query.getUid()).stream().findAny()
