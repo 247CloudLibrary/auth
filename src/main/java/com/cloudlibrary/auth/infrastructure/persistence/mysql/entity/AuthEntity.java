@@ -76,4 +76,20 @@ public class AuthEntity extends BaseTimeEntity{
         this.email = auth.getEmail();
         this.tel = auth.getTel();
     }
+
+    /**
+     * 회원 정보 수정
+     */
+
+    public void update(Auth auth) {
+        this.uid = auth.getUid();
+        this.userId = auth.getUserId();
+        this.password = auth.getPassword();
+        this.userName = auth.getUserName();
+        this.gender = Gender.find(auth.getGender());
+        this.birth = auth.getBirth();
+        this.address = auth.getAddress();
+        this.email = auth.getEmail();
+        this.tel = auth.getTel();
+    }
 }
