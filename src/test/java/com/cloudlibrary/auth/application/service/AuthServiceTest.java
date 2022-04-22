@@ -45,4 +45,28 @@ class AuthServiceTest {
     }
 
 
+    @Test
+    public void 마이페이지_조회() throws Exception{
+        //given
+        Auth auth = Auth.builder()
+                .userId("hansu")
+                .password("Hhansu0700!!")
+                .userName("김한수")
+                .gender("여")
+                .birth("1997-05-12")
+                .address("제주시 레포츠공원")
+                .email("hansu@mail.com")
+                .tel("010-1111-2222")
+                .build();
+
+        AuthEntity saveAuth = authRepository.save(new AuthEntity(auth));
+        //when
+        Optional<Auth> result = authRepository.findById(saveAuth.getUid()).stream().findAny()
+                .map(AuthEntity::toAuth);
+
+
+        //then
+        Assertions.assertThat(result.get().getUserId()).isEqualTo(saveAuth.getUserId());
+    }
+
 }
