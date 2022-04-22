@@ -99,6 +99,13 @@ public class AuthController {
     @ApiOperation("회원 탈퇴")
     public ResponseEntity<ApiResponseView<AuthCompactView>> deleteAuth(@PathVariable("uid") Long uid) {
 
+        var command =
+                AuthOperationUseCase.AuthDeleteCommand.builder().uid(uid).build();
+
+        authOperationUseCase.deleteAuth(command);
+
+
+
         return ResponseEntity.ok().build();
 
     }
