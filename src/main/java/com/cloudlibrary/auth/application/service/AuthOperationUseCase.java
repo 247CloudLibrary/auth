@@ -11,6 +11,7 @@ public interface AuthOperationUseCase {
 
     void updateAuth(AuthUpdateCommand command);
 
+    void deleteAuth(AuthDeleteCommand command);
 
 
     @EqualsAndHashCode(callSuper = false)
@@ -43,5 +44,13 @@ public interface AuthOperationUseCase {
         private final String address;
         private final String email;
         private final String tel;
+    }
+
+    @EqualsAndHashCode(callSuper = false)
+    @Builder
+    @Getter
+    @ToString
+    class AuthDeleteCommand {
+        private final Long uid;
     }
 }

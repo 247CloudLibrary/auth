@@ -59,6 +59,15 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
     }
 
+    @Override
+    @Transactional
+    public void deleteAuth(AuthDeleteCommand command) {
+        authEntityRepository.findById(command.getUid()).stream().findAny()
+                .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+
+        authEntityRepository.deleteById(command.getUid());
+    }
+
 
     @Override
     @Transactional(readOnly = true)
