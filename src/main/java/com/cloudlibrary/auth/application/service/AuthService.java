@@ -79,6 +79,19 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         return FindAuthResult.findByAuth(auth);
     }
 
+    @Override
+    public String findAuthPW(AuthFindPWCommand command) {
+
+        authEntityRepository.findByUserIdAndEmail(command.getUserId(), command.getEmail())
+                .stream().findAny()
+                .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+
+
+        String randomPassword = AuthOperationUseCase.tempPassword(10);
+
+        return randomPassword;
+    }
+
 
     @Override
     @Transactional(readOnly = true)
