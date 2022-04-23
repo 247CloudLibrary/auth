@@ -22,6 +22,15 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
     @Override
     @Transactional
     public void createAuth(AuthCreateCommand command) {
+
+        Optional<AuthEntity> duplicateCheck = authEntityRepository.findByUserIdOrEmail(command.getUserId(), command.getEmail())
+                                            .stream().findAny();
+
+        if (duplicateCheck.isPresent()) {
+            throw new CloudLibraryException(MessageType.CONFLICT);
+        }
+
+
         Auth auth = Auth.builder()
                 .userId(command.getUserId())
                 .password(command.getPassword())
