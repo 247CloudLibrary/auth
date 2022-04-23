@@ -3,8 +3,6 @@ package com.cloudlibrary.auth.application.service;
 import com.cloudlibrary.auth.application.domain.Auth;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface AuthReadUseCase {
 
