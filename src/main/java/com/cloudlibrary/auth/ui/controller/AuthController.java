@@ -6,7 +6,6 @@ import com.cloudlibrary.auth.exception.CloudLibraryException;
 import com.cloudlibrary.auth.exception.MessageType;
 import com.cloudlibrary.auth.ui.requestBody.*;
 import com.cloudlibrary.auth.ui.view.ApiResponseView;
-import com.cloudlibrary.auth.ui.view.auth.AuthCompactView;
 import com.cloudlibrary.auth.ui.view.auth.AuthView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,12 +34,12 @@ public class AuthController {
 
     @PostMapping("/signUp")
     @ApiOperation("회원가입")
-    public void createAuth(@Valid @RequestBody AuthCreateRequest request) {
+    public ResponseEntity<Void> createAuth(@Valid @RequestBody AuthCreateRequest request) {
 
         if (ObjectUtils.isEmpty(request)) {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
-        //TODO 회원 중복 체크
+        //TODO 회원 중복 체크(아이디, 이메일로)
 
         var command = AuthOperationUseCase.AuthCreateCommand.builder()
                 .userId(request.getUserId())
@@ -54,6 +53,8 @@ public class AuthController {
                 .build();
 
         authOperationUseCase.createAuth(command);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/signin")
@@ -76,7 +77,9 @@ public class AuthController {
 
     @PatchMapping("/update-state/{uid}")
     @ApiOperation("회원수정")
-    public ResponseEntity<ApiResponseView<AuthCompactView>> updateAuth( @PathVariable("uid") Long uid, @Valid @RequestBody AuthUpdateRequest request) {
+    public ResponseEntity<Void> updateAuth(@PathVariable("uid") Long uid, @Valid @RequestBody AuthUpdateRequest request) {
+
+
 
         var command = AuthOperationUseCase.AuthUpdateCommand.builder()
                 .uid(uid)
@@ -97,7 +100,7 @@ public class AuthController {
 
     @DeleteMapping("/withdraw/{uid}")
     @ApiOperation("회원 탈퇴")
-    public ResponseEntity<ApiResponseView<AuthCompactView>> deleteAuth(@PathVariable("uid") Long uid) {
+    public ResponseEntity<Void> deleteAuth(@PathVariable("uid") Long uid) {
 
         var command =
                 AuthOperationUseCase.AuthDeleteCommand.builder().uid(uid).build();
@@ -110,10 +113,15 @@ public class AuthController {
 
     }
 
-    @PostMapping("/findid/{uid}")
+    @PostMapping("/findid")
     @ApiOperation("아이디 찾기")
-    public ResponseEntity<ApiResponseView<AuthView>> findId(@RequestBody AuthFindIdRequest request, @PathVariable("uid") Long uid) {
-        return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder().userId("myid").build()));
+    public ResponseEntity<ApiResponseView<AuthView>> findId(@Valid @RequestBody AuthFindIdRequest request) {
+
+        var command = AuthOperationUseCase.AuthFindIdCommand.builder().email(request.getEmail()).build();
+
+        var result = authOperationUseCase.findAuthId(command);
+
+        return ResponseEntity.ok(new ApiResponseView<>(new AuthView(result)));
     }
 
     @PatchMapping("/findpw/{uid}")
