@@ -39,7 +39,7 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
     @Override
     @Transactional
     public void updateAuth(AuthUpdateCommand command) {
-        //회원이 존재하는지 확인
+
         AuthEntity authEntity = authEntityRepository.findById(command.getUid()).stream().findAny()
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
@@ -54,7 +54,7 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
                 .email(command.getEmail())
                 .tel(command.getTel())
                 .build();
-        //있으면 수정
+
         authEntity.update(auth);
 
     }
@@ -66,6 +66,17 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
         authEntityRepository.deleteById(command.getUid());
+    }
+
+    @Override
+    @Transactional
+    public FindAuthResult findAuthId(AuthFindIdCommand command) {
+
+
+        Auth auth = authEntityRepository.findByEmail(command.getEmail()).stream().findAny().map(AuthEntity::toAuth)
+                .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+        System.out.println(auth);
+        return FindAuthResult.findByAuth(auth);
     }
 
 

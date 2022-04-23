@@ -13,6 +13,7 @@ public interface AuthOperationUseCase {
 
     void deleteAuth(AuthDeleteCommand command);
 
+    AuthReadUseCase.FindAuthResult findAuthId(AuthFindIdCommand command);
 
     @EqualsAndHashCode(callSuper = false)
     @Builder
@@ -52,5 +53,14 @@ public interface AuthOperationUseCase {
     @ToString
     class AuthDeleteCommand {
         private final Long uid;
+    }
+
+    @EqualsAndHashCode(callSuper = false)
+    @Builder
+    @Getter
+    @ToString
+    class AuthFindIdCommand {
+        private final String email;
+
     }
 }
