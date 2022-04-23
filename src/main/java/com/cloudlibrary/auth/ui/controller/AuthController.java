@@ -107,8 +107,6 @@ public class AuthController {
 
         authOperationUseCase.deleteAuth(command);
 
-
-
         return ResponseEntity.ok().build();
 
     }
@@ -126,7 +124,14 @@ public class AuthController {
 
     @PatchMapping("/findpw/{uid}")
     @ApiOperation("비밀번호 찾기")
-    public ResponseEntity<ApiResponseView<AuthView>> findPw(@RequestBody AuthFindPwRequest request, @PathVariable("uid") Long uid) {
-        return ResponseEntity.ok(new ApiResponseView<>(AuthView.builder().password("mypw").build()));
+    public ResponseEntity<ApiResponseView<String>> findPw(@RequestBody AuthFindPwRequest request) {
+       var command = AuthOperationUseCase.AuthFindPWCommand.builder()
+                .userId(request.getId())
+                .email(request.getEmail())
+                .build();
+
+        String result = authOperationUseCase.findAuthPW(command);
+
+        return ResponseEntity.ok(new ApiResponseView<>(result));
     }
 }
