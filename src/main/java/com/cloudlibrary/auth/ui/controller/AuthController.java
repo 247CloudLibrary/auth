@@ -40,6 +40,8 @@ public class AuthController {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
         //TODO 회원 중복 체크(아이디, 이메일로)
+        
+
 
         var command = AuthOperationUseCase.AuthCreateCommand.builder()
                 .userId(request.getUserId())
@@ -79,7 +81,9 @@ public class AuthController {
     @ApiOperation("회원수정")
     public ResponseEntity<Void> updateAuth(@PathVariable("uid") Long uid, @Valid @RequestBody AuthUpdateRequest request) {
 
-
+        if (ObjectUtils.isEmpty(request)) {
+            throw new CloudLibraryException(MessageType.BAD_REQUEST);
+        }
 
         var command = AuthOperationUseCase.AuthUpdateCommand.builder()
                 .uid(uid)
