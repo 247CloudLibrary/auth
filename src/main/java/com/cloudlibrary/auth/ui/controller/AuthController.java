@@ -39,9 +39,6 @@ public class AuthController {
         if (ObjectUtils.isEmpty(request)) {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
-        //TODO 회원 중복 체크(아이디, 이메일로)
-        
-
 
         var command = AuthOperationUseCase.AuthCreateCommand.builder()
                 .userId(request.getUserId())
