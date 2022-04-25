@@ -1,5 +1,6 @@
 package com.cloudlibrary.auth.application.service;
 
+import com.cloudlibrary.auth.application.domain.Auth;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,6 +51,20 @@ public interface AuthOperationUseCase {
         private final String address;
         private final String email;
         private final String tel;
+
+        public static Auth toAuth(AuthUpdateCommand command) {
+            return Auth.builder()
+                    .uid(command.getUid())
+                    .userId(command.getUserId())
+                    .password(command.getPassword())
+                    .userName(command.getUserName())
+                    .gender(command.getGender())
+                    .birth(command.getBirth())
+                    .address(command.getAddress())
+                    .email(command.getEmail())
+                    .tel(command.getTel())
+                    .build();
+        }
     }
 
     @EqualsAndHashCode(callSuper = false)
@@ -93,7 +108,8 @@ public interface AuthOperationUseCase {
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '~','!','@','#','$','%','^','&','*','/','-','+','|'
         };
 
         StringBuffer password = new StringBuffer();
