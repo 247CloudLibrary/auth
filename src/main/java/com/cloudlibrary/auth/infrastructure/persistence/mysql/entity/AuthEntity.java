@@ -92,4 +92,11 @@ public class AuthEntity extends BaseTimeEntity{
         this.email = auth.getEmail();
         this.tel = auth.getTel();
     }
+
+    /**
+     * 비밀번호 찾기 기능을 이용할 때 새로 생성된 임시비밀번호로 업데이트하는 메서드
+     */
+    public void updatePassword(String randomPassword) {
+        this.password = randomPassword;
+    }
 }
