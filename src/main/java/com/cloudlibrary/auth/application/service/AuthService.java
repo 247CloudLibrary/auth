@@ -52,17 +52,7 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         AuthEntity authEntity = authEntityRepository.findById(command.getUid()).stream().findAny()
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
-        Auth auth = Auth.builder()
-                .uid(command.getUid())
-                .userId(command.getUserId())
-                .password(command.getPassword())
-                .userName(command.getUserName())
-                .gender(command.getGender())
-                .birth(command.getBirth())
-                .address(command.getAddress())
-                .email(command.getEmail())
-                .tel(command.getTel())
-                .build();
+        Auth auth = AuthUpdateCommand.toAuth(command);
 
         authEntity.update(auth);
 
@@ -78,32 +68,31 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
     }
 
     @Override
-    @Transactional
     public FindAuthResult findAuthId(AuthFindIdCommand command) {
 
 
         Auth auth = authEntityRepository.findByEmail(command.getEmail()).stream().findAny().map(AuthEntity::toAuth)
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
-        System.out.println(auth);
+
         return FindAuthResult.findByAuth(auth);
     }
 
     @Override
+    @Transactional
     public String findAuthPW(AuthFindPWCommand command) {
 
-        authEntityRepository.findByUserIdAndEmail(command.getUserId(), command.getEmail())
+        AuthEntity authEntity = authEntityRepository.findByUserIdAndEmail(command.getUserId(), command.getEmail())
                 .stream().findAny()
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
+        String randomPassword = AuthOperationUseCase.tempPassword(13);
 
-        String randomPassword = AuthOperationUseCase.tempPassword(10);
+        authEntity.updatePassword(randomPassword);
 
-        return randomPassword;
+       return randomPassword;
     }
 
-
     @Override
-    @Transactional(readOnly = true)
     public FindAuthResult getAuthInfo(AuthFindQuery query) {
 
         Optional<Auth> result = authEntityRepository.findById(query.getUid()).stream().findAny()
