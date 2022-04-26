@@ -5,9 +5,14 @@ import com.cloudlibrary.auth.exception.CloudLibraryException;
 import com.cloudlibrary.auth.exception.MessageType;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.entity.AuthEntity;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.repository.AuthEntityRepository;
+import com.cloudlibrary.auth.ui.security.SecurityConfig;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -30,10 +35,11 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
             throw new CloudLibraryException(MessageType.CONFLICT);
         }
 
+        String encoderPassword = SecurityConfig.passwordEncoder().encode(command.getPassword());
 
         Auth auth = Auth.builder()
                 .userId(command.getUserId())
-                .password(command.getPassword())
+                .password(encoderPassword)
                 .userName(command.getUserName())
                 .gender(command.getGender())
                 .birth(command.getBirth())
@@ -52,7 +58,21 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         AuthEntity authEntity = authEntityRepository.findById(command.getUid()).stream().findAny()
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
-        Auth auth = AuthUpdateCommand.toAuth(command);
+
+        String encoderPassword = SecurityConfig.passwordEncoder().encode(command.getPassword());
+
+        Auth auth = Auth.builder()
+                .uid(command.getUid())
+                .userId(command.getUserId())
+                .password(encoderPassword)
+                .userName(command.getUserName())
+                .gender(command.getGender())
+                .birth(command.getBirth())
+                .address(command.getAddress())
+                .email(command.getEmail())
+                .tel(command.getTel())
+                .build();
+
 
         authEntity.update(auth);
 
@@ -92,6 +112,7 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
        return randomPassword;
     }
 
+
     @Override
     public FindAuthResult getAuthInfo(AuthFindQuery query) {
 
@@ -103,5 +124,27 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         }
 
         return FindAuthResult.findByAuth(result.get());
+    }
+
+    @Override
+    public FindAuthResult getAuthById(String userId) {
+        Optional<AuthEntity> result = authEntityRepository.findByUserId(userId);
+
+        if(result.isEmpty()){
+            throw new CloudLibraryException(MessageType.NOT_FOUND);
+        }
+
+        return FindAuthResult.findByAuth(result.get().toAuth());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Optional<AuthEntity> result = authEntityRepository.findByUserId(userName);
+        if (result == null) {
+            throw new UsernameNotFoundException(userName);
+        }
+        return new User(result.get().getUserId(), result.get().getPassword(),
+                true, true, true, true, new ArrayList<>());
+
     }
 }
