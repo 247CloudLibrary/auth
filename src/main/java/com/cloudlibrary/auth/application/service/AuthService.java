@@ -5,7 +5,7 @@ import com.cloudlibrary.auth.exception.CloudLibraryException;
 import com.cloudlibrary.auth.exception.MessageType;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.entity.AuthEntity;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.repository.AuthEntityRepository;
-import com.cloudlibrary.auth.ui.security.SecurityConfig;
+import com.cloudlibrary.auth.ui.security.config.SecurityConfig;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

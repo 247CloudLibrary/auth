@@ -1,6 +1,7 @@
-package com.cloudlibrary.auth.ui.security;
+package com.cloudlibrary.auth.ui.security.config;
 
 import com.cloudlibrary.auth.application.service.AuthService;
+import com.cloudlibrary.auth.ui.security.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -21,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     Environment env;
 
+    @Autowired
+    private CorsConfig corsConfig;
+
     @Bean
     static public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -29,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable();
+                .addFilter(corsConfig.corsFilter())
+                .csrf().disable()
+                .httpBasic().disable();
         http
                 .authorizeRequests()
                 .antMatchers("/v1/auth/signup").permitAll()
