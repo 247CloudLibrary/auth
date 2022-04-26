@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v1/auth/signup").permitAll()
                 .antMatchers("/v1/auth/signin").permitAll()
                 .antMatchers("/v1/auth/findid").permitAll()
+                .antMatchers("/v1/auth/health-check").permitAll()
                 .antMatchers("/v1/auth/findpw/{uid}").permitAll();
 
         http

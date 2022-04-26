@@ -19,7 +19,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/v1/auth/signup")
                 .excludePathPatterns("/v1/auth/findpw/{uid}")
                 .excludePathPatterns("/v1/auth/findid")
-                .excludePathPatterns("/v1/auth/signup");
+                .excludePathPatterns("/v1/auth/signup")
+                .excludePathPatterns("/v1/auth/health-check");
 
 
     }
