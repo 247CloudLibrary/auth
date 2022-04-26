@@ -2,11 +2,13 @@ package com.cloudlibrary.auth.application.service;
 
 import com.cloudlibrary.auth.application.domain.Auth;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 
-public interface AuthReadUseCase {
+public interface AuthReadUseCase extends UserDetailsService {
 
     FindAuthResult getAuthInfo(AuthFindQuery query);
+    FindAuthResult getAuthById(String userId);
 
     @NoArgsConstructor
     @EqualsAndHashCode(callSuper = false)
@@ -26,7 +28,6 @@ public interface AuthReadUseCase {
     class FindAuthResult {
         private final Long uid;
         private final String userId;
-        private final String password;
         private final String userName;
         private final String gender;
         private final String birth;
@@ -38,7 +39,6 @@ public interface AuthReadUseCase {
             return FindAuthResult.builder()
                     .uid(auth.getUid())
                     .userId(auth.getUserId())
-                    .password(auth.getPassword())
                     .userName(auth.getUserName())
                     .gender(auth.getGender())
                     .birth(auth.getBirth())
