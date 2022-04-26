@@ -20,8 +20,6 @@ public class AuthView {
     private final Long uid;
     @ApiModelProperty(value = "user가 입력하는 id")
     private final String userId;
-    @ApiModelProperty(value = "user가 입력하는 pw")
-    private final String password;
     @ApiModelProperty(value = "성함")
     private final String userName;
     @ApiModelProperty(value = "성별")
@@ -38,7 +36,6 @@ public class AuthView {
     public AuthView(AuthReadUseCase.FindAuthResult result) {
         this.uid = result.getUid();
         this.userId = result.getUserId();
-        this.password = result.getPassword();
         this.userName = result.getUserName();
         this.gender = result.getGender();
         this.birth = result.getBirth();

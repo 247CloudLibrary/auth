@@ -1,6 +1,5 @@
 package com.cloudlibrary.auth.application.service;
 
-import com.cloudlibrary.auth.application.domain.Auth;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,19 +51,6 @@ public interface AuthOperationUseCase {
         private final String email;
         private final String tel;
 
-        public static Auth toAuth(AuthUpdateCommand command) {
-            return Auth.builder()
-                    .uid(command.getUid())
-                    .userId(command.getUserId())
-                    .password(command.getPassword())
-                    .userName(command.getUserName())
-                    .gender(command.getGender())
-                    .birth(command.getBirth())
-                    .address(command.getAddress())
-                    .email(command.getEmail())
-                    .tel(command.getTel())
-                    .build();
-        }
     }
 
     @EqualsAndHashCode(callSuper = false)
