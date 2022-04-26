@@ -1,5 +1,7 @@
 package com.cloudlibrary.auth.ui.security;
 
+import com.cloudlibrary.auth.exception.CloudLibraryException;
+import com.cloudlibrary.auth.exception.MessageType;
 import io.jsonwebtoken.Jwts;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -38,12 +40,12 @@ public class TokenValidationInterceptor extends HandlerInterceptorAdapter {
 
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader == null) {
-            throw new AccessDeniedException("인증 정보 누락");
+            throw new CloudLibraryException(MessageType.UNAUTHORIZED);
         }
 
         String jwt = authorizationHeader.replace("Bearer", "").trim();
         if (!isJwtValid(jwt)) {
-            throw new org.springframework.security.access.AccessDeniedException("인증오류");
+            throw new CloudLibraryException(MessageType.UNAUTHORIZED);
         }
         return super.preHandle(request, response, handler);
     }

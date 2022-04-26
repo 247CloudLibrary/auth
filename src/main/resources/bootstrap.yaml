@@ -1,0 +1,7 @@
+aws:
+  secretsmanager:
+    name: cloudlibrary/rds/auth/mysql
+  cloud:
+    aws:
+      region:
+        static: us-east-1
