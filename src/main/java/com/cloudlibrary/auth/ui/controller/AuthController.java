@@ -32,7 +32,11 @@ public class AuthController {
         this.authReadUseCase = authReadUseCase;
     }
 
-    @PostMapping("/signUp")
+    @GetMapping("/health-check")
+    public ResponseEntity<String> check() {
+        return ResponseEntity.ok("health-check");}
+
+    @PostMapping("/signup")
     @ApiOperation("회원가입")
     public ResponseEntity<Void> createAuth(@Valid @RequestBody AuthCreateRequest request) {
 
@@ -53,12 +57,6 @@ public class AuthController {
 
         authOperationUseCase.createAuth(command);
 
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/signin")
-    @ApiOperation("로그인")
-    public ResponseEntity<ApiResponseView<AuthView>> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok().build();
     }
 
