@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -68,7 +70,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Cookie setCookie = new Cookie("token",token);
         response.addCookie(setCookie);
         response.addHeader("token",token);
-        response.addHeader("authUid", Long.toString(findAuthResult.getUid()));
-        response.addHeader("authId",findAuthResult.getUserId());
+
+        Map<String, Object> responseDataMap = new HashMap<>();
+        responseDataMap.put("uid ",findAuthResult.getUid());
+        responseDataMap.put("userId ",findAuthResult.getUserId());
+        response.getWriter().write(String.valueOf(responseDataMap));
+
     }
 }
