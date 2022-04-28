@@ -73,10 +73,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        Map<String, Object> responseDataMap = new HashMap<>();
-        responseDataMap.put("uid ",findAuthResult.getUid());
-        responseDataMap.put("userId ",findAuthResult.getUserId());
-        response.getWriter().write(String.valueOf(responseDataMap));
+
+        String result = new ObjectMapper().writeValueAsString(findAuthResult);
+        response.getWriter().write(result);
 
     }
 }
