@@ -13,10 +13,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Autowired
     Environment env;
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/*").allowedMethods("").allowedOriginPatterns("*");
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
