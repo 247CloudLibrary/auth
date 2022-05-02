@@ -84,13 +84,19 @@ public class AuthEntity extends BaseTimeEntity{
     public void update(Auth auth) {
         this.uid = auth.getUid();
         this.userId = auth.getUserId();
-        this.password = auth.getPassword();
         this.userName = auth.getUserName();
         this.gender = Gender.find(auth.getGender());
         this.birth = auth.getBirth();
         this.address = auth.getAddress();
         this.email = auth.getEmail();
         this.tel = auth.getTel();
+    }
+
+    /**
+     * 비밀번호 수정
+     */
+    public void changePassword(String encodePassword) {
+        this.password = encodePassword;
     }
 
     /**

@@ -83,7 +83,6 @@ public class AuthController {
         var command = AuthOperationUseCase.AuthUpdateCommand.builder()
                 .uid(uid)
                 .userId(request.getUserId())
-                .password(request.getPassword())
                 .userName(request.getUserName())
                 .gender(request.getGender())
                 .birth(request.getBirth())
@@ -93,6 +92,21 @@ public class AuthController {
                 .build();
 
         authOperationUseCase.updateAuth(command);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/update-pw/{uid}")
+    @ApiOperation("비밀번호 수정")
+    public ResponseEntity<Void> updatePassword(@PathVariable("uid") Long uid, @Valid @RequestBody AuthUpdatePassword request) {
+
+        var command = AuthOperationUseCase.AuthUpdatePasswordCommand.builder()
+                .uid(uid)
+                .oldPassword(request.getOldPassword())
+                .newPassword(request.getNewPassword())
+                .build();
+
+        authOperationUseCase.updatePassword(command);
 
         return ResponseEntity.ok().build();
     }
