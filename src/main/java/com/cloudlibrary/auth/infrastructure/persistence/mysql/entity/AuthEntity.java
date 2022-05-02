@@ -84,7 +84,6 @@ public class AuthEntity extends BaseTimeEntity{
     public void update(Auth auth) {
         this.uid = auth.getUid();
         this.userId = auth.getUserId();
-        this.password = auth.getPassword();
         this.userName = auth.getUserName();
         this.gender = Gender.find(auth.getGender());
         this.birth = auth.getBirth();

@@ -43,7 +43,6 @@ public interface AuthOperationUseCase {
     class AuthUpdateCommand {
         private final Long uid;
         private final String userId;
-        private final String password;
         private final String userName;
         private final String gender;
         private final String birth;

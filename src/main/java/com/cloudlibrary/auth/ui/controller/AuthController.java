@@ -83,7 +83,6 @@ public class AuthController {
         var command = AuthOperationUseCase.AuthUpdateCommand.builder()
                 .uid(uid)
                 .userId(request.getUserId())
-                .password(request.getPassword())
                 .userName(request.getUserName())
                 .gender(request.getGender())
                 .birth(request.getBirth())
