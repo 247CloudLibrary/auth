@@ -9,6 +9,7 @@ import com.cloudlibrary.auth.ui.security.config.SecurityConfig;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +19,12 @@ import java.util.Optional;
 @Service
 public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
+    private final PasswordEncoder passwordEncoder;
+
     private final AuthEntityRepository authEntityRepository;
 
-    public AuthService(AuthEntityRepository authEntityRepository) {
+    public AuthService(PasswordEncoder passwordEncoder, AuthEntityRepository authEntityRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.authEntityRepository = authEntityRepository;
     }
 
@@ -58,13 +62,9 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         AuthEntity authEntity = authEntityRepository.findById(command.getUid()).stream().findAny()
                 .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
-
-        String encoderPassword = SecurityConfig.passwordEncoder().encode(command.getPassword());
-
         Auth auth = Auth.builder()
                 .uid(command.getUid())
                 .userId(command.getUserId())
-                .password(encoderPassword)
                 .userName(command.getUserName())
                 .gender(command.getGender())
                 .birth(command.getBirth())
@@ -75,6 +75,25 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
 
         authEntity.update(auth);
+
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(AuthUpdatePasswordCommand command) {
+
+        Optional<AuthEntity> authEntity = authEntityRepository.findByUid(command.getUid());
+
+        if(!passwordEncoder.matches(command.getOldPassword(), authEntity.get().getPassword())){
+            throw new CloudLibraryException(MessageType.NOT_FOUND);
+        }
+
+
+        String newPasswordEncode = SecurityConfig.passwordEncoder().encode(command.getNewPassword());
+
+        authEntity.get().changePassword(newPasswordEncode);
+
+
 
     }
 
