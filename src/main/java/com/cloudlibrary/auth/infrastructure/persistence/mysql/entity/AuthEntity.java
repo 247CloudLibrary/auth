@@ -93,6 +93,13 @@ public class AuthEntity extends BaseTimeEntity{
     }
 
     /**
+     * 비밀번호 수정
+     */
+    public void changePassword(String encodePassword) {
+        this.password = encodePassword;
+    }
+
+    /**
      * 비밀번호 찾기 기능을 이용할 때 새로 생성된 임시비밀번호로 업데이트하는 메서드
      */
     public void updatePassword(String randomPassword) {

@@ -12,6 +12,8 @@ public interface AuthOperationUseCase {
 
     void updateAuth(AuthUpdateCommand command);
 
+    void updatePassword(AuthUpdatePasswordCommand command);
+
     void deleteAuth(AuthDeleteCommand command);
 
     AuthReadUseCase.FindAuthResult findAuthId(AuthFindIdCommand command);
@@ -51,6 +53,18 @@ public interface AuthOperationUseCase {
         private final String tel;
 
     }
+
+
+    @EqualsAndHashCode(callSuper = false)
+    @Builder
+    @Getter
+    @ToString
+    class AuthUpdatePasswordCommand {
+        private final Long uid;
+        private final String oldPassword;
+        private final String newPassword;
+    }
+
 
     @EqualsAndHashCode(callSuper = false)
     @Builder
@@ -107,4 +121,6 @@ public interface AuthOperationUseCase {
         }
         return password.toString();
     }
+
+
 }

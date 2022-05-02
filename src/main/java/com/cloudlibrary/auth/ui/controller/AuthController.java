@@ -96,6 +96,21 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/update-pw/{uid}")
+    @ApiOperation("비밀번호 수정")
+    public ResponseEntity<Void> updatePassword(@PathVariable("uid") Long uid, @Valid @RequestBody AuthUpdatePassword request) {
+
+        var command = AuthOperationUseCase.AuthUpdatePasswordCommand.builder()
+                .uid(uid)
+                .oldPassword(request.getOldPassword())
+                .newPassword(request.getNewPassword())
+                .build();
+
+        authOperationUseCase.updatePassword(command);
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/withdraw/{uid}")
     @ApiOperation("회원 탈퇴")
     public ResponseEntity<Void> deleteAuth(@PathVariable("uid") Long uid) {
