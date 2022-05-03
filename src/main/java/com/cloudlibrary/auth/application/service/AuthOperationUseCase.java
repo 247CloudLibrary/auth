@@ -20,7 +20,7 @@ public interface AuthOperationUseCase {
 
     AuthReadUseCase.FindAuthResult findAuthId(AuthFindIdCommand command);
 
-    String findAuthPW(AuthFindPWCommand command) throws MessagingException;
+    String findAuthPW(AuthFindPWCommand command);
 
 
 

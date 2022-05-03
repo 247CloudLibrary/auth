@@ -6,14 +6,6 @@ spring:
       jdbc-url: cloudlibrary/rds/auth/mysql
       driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerMySQLDriver
       username: cloudlibrary/rds/auth/mysql
-  mail:
-    host: smtp.naver.com
-    port: 465
-    username: #이메일 주소
-    password: #비밀번호
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.ssl.enable: true
 
   jpa:
     database: mysql

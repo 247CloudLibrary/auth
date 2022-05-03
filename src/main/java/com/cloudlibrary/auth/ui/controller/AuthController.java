@@ -138,7 +138,7 @@ public class AuthController {
 
     @PatchMapping("/findpw")
     @ApiOperation("비밀번호 찾기")
-    public ResponseEntity<ApiResponseView<String>> findPw(@RequestBody AuthFindPwRequest request) throws MessagingException {
+    public ResponseEntity<ApiResponseView<String>> findPw(@RequestBody AuthFindPwRequest request) {
        var command = AuthOperationUseCase.AuthFindPWCommand.builder()
                 .userId(request.getUserId())
                 .email(request.getEmail())
