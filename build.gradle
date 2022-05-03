@@ -31,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.1'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
 	implementation 'com.amazonaws.secretsmanager:aws-secretsmanager-jdbc:1.0.7'
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
