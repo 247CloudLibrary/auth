@@ -93,8 +93,6 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
         authEntity.get().changePassword(newPasswordEncode);
 
-
-
     }
 
     @Override
@@ -164,6 +162,5 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         }
         return new User(result.get().getUserId(), result.get().getPassword(),
                 true, true, true, true, new ArrayList<>());
-
     }
 }
