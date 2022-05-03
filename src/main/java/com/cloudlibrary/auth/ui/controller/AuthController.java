@@ -135,11 +135,11 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponseView<>(new AuthView(result)));
     }
 
-    @PatchMapping("/findpw/{uid}")
+    @PatchMapping("/findpw")
     @ApiOperation("비밀번호 찾기")
     public ResponseEntity<ApiResponseView<String>> findPw(@RequestBody AuthFindPwRequest request) {
        var command = AuthOperationUseCase.AuthFindPWCommand.builder()
-                .userId(request.getId())
+                .userId(request.getUserId())
                 .email(request.getEmail())
                 .build();
 

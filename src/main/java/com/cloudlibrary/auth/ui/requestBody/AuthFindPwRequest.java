@@ -10,6 +10,6 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class AuthFindPwRequest {
-    private String id;
+    private String userId;
     private String email;
 }
