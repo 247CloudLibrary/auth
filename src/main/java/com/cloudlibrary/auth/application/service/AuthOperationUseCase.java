@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import javax.mail.MessagingException;
 import java.util.Random;
 
 public interface AuthOperationUseCase {

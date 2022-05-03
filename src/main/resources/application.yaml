@@ -17,10 +17,12 @@ logging:
   level:
     com.cloudlibrary.auth: DEBUG
 
+
+
 jwt:
   header: Authorization
   secret: usertokensecretcloudlibraryhhjsisywsyjsdkyjfightingkoreausertokensecretcloudlibraryhhjsisywsyjsdkyjfightingkorea
-  token-validity-in-seconds: 86400000
+  token-validity-in-seconds: 8640000
 ---
 spring:
   application:

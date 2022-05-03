@@ -1,5 +1,6 @@
 package com.cloudlibrary.auth.application.service;
 
+
 import com.cloudlibrary.auth.application.domain.Auth;
 import com.cloudlibrary.auth.exception.CloudLibraryException;
 import com.cloudlibrary.auth.exception.MessageType;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -23,9 +25,11 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
     private final AuthEntityRepository authEntityRepository;
 
+
     public AuthService(PasswordEncoder passwordEncoder, AuthEntityRepository authEntityRepository) {
         this.passwordEncoder = passwordEncoder;
         this.authEntityRepository = authEntityRepository;
+
     }
 
     @Override
@@ -114,6 +118,7 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         return FindAuthResult.findByAuth(auth);
     }
 
+
     @Override
     @Transactional
     public String findAuthPW(AuthFindPWCommand command) {
@@ -124,9 +129,11 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
         String randomPassword = AuthOperationUseCase.tempPassword(13);
 
-        authEntity.updatePassword(randomPassword);
+        String encodePassword = SecurityConfig.passwordEncoder().encode(randomPassword);
 
-       return randomPassword;
+        authEntity.updatePassword(encodePassword);
+
+        return randomPassword;
     }
 
 
