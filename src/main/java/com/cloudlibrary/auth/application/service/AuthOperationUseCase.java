@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import javax.mail.MessagingException;
 import java.util.Random;
 
 public interface AuthOperationUseCase {
@@ -18,7 +20,7 @@ public interface AuthOperationUseCase {
 
     AuthReadUseCase.FindAuthResult findAuthId(AuthFindIdCommand command);
 
-    String findAuthPW(AuthFindPWCommand command);
+    String findAuthPW(AuthFindPWCommand command) throws MessagingException;
 
 
 

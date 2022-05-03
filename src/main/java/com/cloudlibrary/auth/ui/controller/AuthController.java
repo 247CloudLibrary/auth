@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 
@@ -137,7 +138,7 @@ public class AuthController {
 
     @PatchMapping("/findpw")
     @ApiOperation("비밀번호 찾기")
-    public ResponseEntity<ApiResponseView<String>> findPw(@RequestBody AuthFindPwRequest request) {
+    public ResponseEntity<ApiResponseView<String>> findPw(@RequestBody AuthFindPwRequest request) throws MessagingException {
        var command = AuthOperationUseCase.AuthFindPWCommand.builder()
                 .userId(request.getUserId())
                 .email(request.getEmail())

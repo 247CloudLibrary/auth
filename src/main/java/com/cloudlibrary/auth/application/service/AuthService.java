@@ -1,11 +1,17 @@
 package com.cloudlibrary.auth.application.service;
 
+import com.amazonaws.services.secretsmanager.AWSSecretsManager;
+import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
+import com.amazonaws.services.secretsmanager.model.*;
 import com.cloudlibrary.auth.application.domain.Auth;
 import com.cloudlibrary.auth.exception.CloudLibraryException;
 import com.cloudlibrary.auth.exception.MessageType;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.entity.AuthEntity;
 import com.cloudlibrary.auth.infrastructure.persistence.mysql.repository.AuthEntityRepository;
 import com.cloudlibrary.auth.ui.security.config.SecurityConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -22,10 +31,12 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
     private final PasswordEncoder passwordEncoder;
 
     private final AuthEntityRepository authEntityRepository;
+    private final JavaMailSender javaMailSender;
 
-    public AuthService(PasswordEncoder passwordEncoder, AuthEntityRepository authEntityRepository) {
+    public AuthService(PasswordEncoder passwordEncoder, AuthEntityRepository authEntityRepository, JavaMailSender javaMailSender) {
         this.passwordEncoder = passwordEncoder;
         this.authEntityRepository = authEntityRepository;
+        this.javaMailSender = javaMailSender;
     }
 
     @Override
@@ -114,9 +125,16 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
         return FindAuthResult.findByAuth(auth);
     }
 
+
+
+
+
+    @Value("${spring.mail.username}")
+    private String from;
+
     @Override
     @Transactional
-    public String findAuthPW(AuthFindPWCommand command) {
+    public String findAuthPW(AuthFindPWCommand command) throws MessagingException {
 
         AuthEntity authEntity = authEntityRepository.findByUserIdAndEmail(command.getUserId(), command.getEmail())
                 .stream().findAny()
@@ -124,9 +142,25 @@ public class AuthService implements AuthOperationUseCase,AuthReadUseCase{
 
         String randomPassword = AuthOperationUseCase.tempPassword(13);
 
-        authEntity.updatePassword(randomPassword);
+        String encodePassword = SecurityConfig.passwordEncoder().encode(randomPassword);
 
-       return randomPassword;
+        authEntity.updatePassword(encodePassword);
+
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        mimeMessageHelper.setFrom(from);
+        mimeMessageHelper.setTo(command.getEmail());
+        mimeMessageHelper.setSubject("Cloud Library 임시 비밀번호 안내");
+
+        mimeMessageHelper.setText(randomPassword, true);
+        javaMailSender.send(mimeMessage);
+
+
+
+
+        return randomPassword;
     }
 
 
